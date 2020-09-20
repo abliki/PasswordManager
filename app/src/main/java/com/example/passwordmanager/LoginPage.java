@@ -21,7 +21,6 @@ public class LoginPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
-
         SharedPreferences settings = getSharedPreferences("PREFS", 0);
         password = settings.getString("password", "");
 
@@ -34,7 +33,7 @@ public class LoginPage extends AppCompatActivity {
                 String text = editText.getText().toString();
 
                 if(text.equals(password)) {
-                    Intent intent = new Intent(getApplicationContext(), PasswordList.class);
+                    Intent intent = new Intent(getApplicationContext(), account_list.class);
                     startActivity(intent);
                     finish();
                 } else {
@@ -45,7 +44,7 @@ public class LoginPage extends AppCompatActivity {
     }
 
     public void toNext(View view) {
-        Intent intent = new Intent(this, PasswordList.class);
+        Intent intent = new Intent(this, account_list.class);
         startActivity(intent);
     }
 }

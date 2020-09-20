@@ -40,7 +40,7 @@ public class CreatePasswordActivity extends AppCompatActivity {
                         editor.putString("password", text1);
                         editor.apply();
 
-                        Intent intent = new Intent(getApplicationContext(), PasswordList.class);
+                        Intent intent = new Intent(getApplicationContext(), account_list.class);
                         startActivity(intent);
                         finish();
                     } else {
