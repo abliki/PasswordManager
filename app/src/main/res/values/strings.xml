@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">PasswordManager</string>
+    <string name="password_name_text">PASSWORD NAME:</string>
+    <string name="user_name_hint">USERNAME:</string>
+    <string name="password_hint">PASSWORD:</string>
+    <string name="password_generate_button_label">generate</string>
+    <string name="password_generate_show_button_label">show</string>
 </resources>
