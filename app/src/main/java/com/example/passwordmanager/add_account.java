@@ -14,10 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 public class add_account extends AppCompatActivity {
-    private EditText title,url,username,password,notes;
+    private EditText title, url, username, password, notes;
     private Button generate_password, show_password, cancel, add;
     DatabaseHelper DBhelper;
     private Context context;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,31 +51,38 @@ public class add_account extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Title, password and username must be filled
-                if (title.getText().toString().length() != 0 && username.getText().toString().length() != 0 && password.getText().toString().length() != 0){
+                if (title.getText().toString().length() != 0 && username.getText().toString().length() != 0 && password.getText().toString().length() != 0) {
                     add_data();
                     Intent intent = new Intent(add_account.this, account_list.class);
                     startActivity(intent);
-                }
-                else{
+                } else {
                     Toast.makeText(context, "Title, Username and Password must be filled", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    private void add_data(){
-            //Create a contentvalue to insert to database
-            long id = System.currentTimeMillis()/1000;
-            System.out.println(title.getText().toString());
-            ContentValues values = new ContentValues();
-            values.put("ID",id+"");
-            values.put("TITLE", title.getText().toString());
-            values.put("URL", url.getText().toString());
-            values.put("USERNAME", username.getText().toString());
-            values.put("PASSWORD", password.getText().toString());
-            values.put("NOTES", notes.getText().toString());
-            DBhelper.addData(values);
-            DBhelper.closeDB();
+    private void add_data() {
+        //Create a contentvalue to insert to database
+        long id = System.currentTimeMillis() / 1000;
+        System.out.println(title.getText().toString());
+        ContentValues values = new ContentValues();
+        values.put("ID", id + "");
+        values.put("TITLE", title.getText().toString());
+        values.put("URL", url.getText().toString());
+        values.put("USERNAME", username.getText().toString());
+        values.put("PASSWORD", password.getText().toString());
+        values.put("NOTES", notes.getText().toString());
+        DBhelper.addData(values);
+        DBhelper.closeDB();
     }
 
+    /**
+     * onClick listener to the PasswordRandomGeneration activity
+     * @param view
+     */
+    public void toRandomGenerateActivity(View view) {
+        Intent intent = new Intent(this, PasswordRandomGeneration.class);
+        startActivity(intent);
+    }
 }

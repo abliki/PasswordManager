@@ -5,4 +5,8 @@
     <string name="password_hint">PASSWORD:</string>
     <string name="password_generate_button_label">generate</string>
     <string name="password_generate_show_button_label">show</string>
+    <string name="lowercase_switch_label">Lowercase</string>
+    <string name="uppercase_switch_label">Uppercase</string>
+    <string name="number_switch_label">Number</string>
+    <string name="special_character_switch_label">Special Character</string>
 </resources>
