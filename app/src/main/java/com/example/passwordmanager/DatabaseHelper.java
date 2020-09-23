@@ -21,13 +21,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int arg1, int arg2) {
+        //Empty
     }
 
     public boolean addData(ContentValues values) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         long result = db.insert("Accounts", null, values);
+
         //if date as inserted incorrectly it will return -1
         if (result == -1) {
             return false;

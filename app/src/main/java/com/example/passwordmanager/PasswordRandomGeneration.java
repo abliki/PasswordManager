@@ -97,6 +97,12 @@ public class PasswordRandomGeneration extends AppCompatActivity {
         includeSpecial = specialSwitch.isChecked();
         int progress = seekBar.getProgress();
 
+        if (!(includeLower || includeUpper || includeNumber || includeSpecial)) {
+            // exception when no option is selected
+            Toast.makeText(this, "You have to select at least one parameter", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String pw = passwordGen(includeLower, includeUpper, includeNumber, includeSpecial, progress);
         passwordGenText.setText(pw);
 

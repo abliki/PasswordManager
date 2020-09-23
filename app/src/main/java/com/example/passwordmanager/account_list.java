@@ -2,7 +2,6 @@ package com.example.passwordmanager;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -26,8 +25,8 @@ public class account_list extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.account_list);
         DBhelper = new DatabaseHelper(this);
-        mListView = (ListView) findViewById(R.id.list);
-        add_button = (FloatingActionButton) findViewById(R.id.toadd);
+        mListView = (ListView) findViewById(R.id.password_list);
+        add_button = (FloatingActionButton) findViewById(R.id.float_button_toadd);
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
