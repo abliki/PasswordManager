@@ -84,7 +84,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Generate"
-                android:onClick="toRandomGenerateActivity"/>
+                android:onClick="toRandomGenerateActivity"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="4dp"/>
 
             <Button
                 android:id="@+id/show"
@@ -92,7 +94,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/button_label_show"
-                android:onClick="switchPasswordVisibility"/>
+                android:onClick="switchPasswordVisibility"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="8dp"/>
 
         </LinearLayout>
 

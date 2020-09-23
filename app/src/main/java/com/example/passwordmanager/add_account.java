@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -125,11 +127,13 @@ public class add_account extends AppCompatActivity {
         if (mode.equals("Show")) {
             Log.d(LOG_TAG, "switchPasswordVisibility: show");
             mShowPassword.setText(R.string.button_label_hide);
-            mPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
+//            mPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
+            mPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
         } else if (mode.equals("Hide")) {
             Log.d(LOG_TAG, "switchPasswordVisibility: hide");
             mShowPassword.setText(R.string.button_label_show);
-            mPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+//            mPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            mPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
         } else {
             Log.d(LOG_TAG, "the show/hide button is neither hide nor show, something wrong");
         }
