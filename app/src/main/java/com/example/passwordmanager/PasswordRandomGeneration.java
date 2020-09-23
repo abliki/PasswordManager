@@ -2,6 +2,7 @@ package com.example.passwordmanager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,8 +16,11 @@ import org.w3c.dom.Text;
 import java.io.StringWriter;
 
 public class PasswordRandomGeneration extends AppCompatActivity {
+    public static final String EXTRA_REPLY = "com.example.android.passwordmanager.extra.REPLY";
+
     private boolean includeLower = true, includeNumber = true, includeUpper = false, includeSpecial = false;
-    TextView passwordGenText, passwordLengthHint;
+    TextView passwordLengthHint;
+    private TextView passwordGenText;
     Button buttonGenerate, buttonConfirm;
     Switch lowerSwitch, upperSwitch, numberSwitch, specialSwitch;
     SeekBar seekBar;
@@ -82,6 +86,9 @@ public class PasswordRandomGeneration extends AppCompatActivity {
         return password.toString();
     }
 
+    /**
+     * helper function that generate a password based on the user's input parameters
+     */
     private void generatePw() {
         // change the parameter status based on user input
         includeLower = lowerSwitch.isChecked();
@@ -100,8 +107,23 @@ public class PasswordRandomGeneration extends AppCompatActivity {
             passwordGenText.setTextSize(48);
     }
 
-    // onClick handler of the "generate" button
+    /**
+     * onClick handler of the "generate" button
+     */
     public void generateRandomPassword(View view) {
         generatePw();
+    }
+
+    /**
+     * onClick handler of the "confirm" button
+     * passes the generated password as extra to the add_account activity and finish the activity
+     * @param view
+     */
+    public void confirmPasswordGenerated(View view) {
+        String pw = passwordGenText.getText().toString();
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_REPLY, pw);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }

@@ -9,4 +9,8 @@
     <string name="uppercase_switch_label">Uppercase</string>
     <string name="number_switch_label">Number</string>
     <string name="special_character_switch_label">Special Character</string>
+    <string name="button_label_generate">generate</string>
+    <string name="button_label_confirm">confirm</string>
+    <string name="button_label_show">Show</string>
+    <string name="button_label_hide">Hide</string>
 </resources>

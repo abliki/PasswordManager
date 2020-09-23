@@ -5,15 +5,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 
 public class add_account extends AppCompatActivity {
+    private static final String EXTRA_MESSAGE = "com.example.passwordmanager.extra.MESSAGE";
+    private static final int TEXT_REQUEST = 1;
+    public static final String LOG_TAG = add_account.class.getSimpleName();
+
     private EditText title, url, username, password, notes;
     private Button generate_password, show_password, cancel, add;
     DatabaseHelper DBhelper;
@@ -60,6 +67,7 @@ public class add_account extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     private void add_data() {
@@ -83,6 +91,50 @@ public class add_account extends AppCompatActivity {
      */
     public void toRandomGenerateActivity(View view) {
         Intent intent = new Intent(this, PasswordRandomGeneration.class);
-        startActivity(intent);
+        String message = password.getText().toString();
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivityForResult(intent, TEXT_REQUEST);
+    }
+
+    /**
+     * overrides the on activity result to put the generated password to the edittext block
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == TEXT_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                String pwGen = data.getStringExtra(PasswordRandomGeneration.EXTRA_REPLY);
+                password.setText(pwGen);
+            }
+        }
+    }
+
+    /**
+     * onClick handler of the SHOW button that simply displays the password
+     * @param view
+     */
+    public void switchPasswordVisibility(View view) {
+        String mode = show_password.getText().toString();
+
+        if (mode.equals("Show")) {
+            Log.d(LOG_TAG, "switchPasswordVisibility: show");
+            show_password.setText(R.string.button_label_hide);
+            password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
+        }
+
+        else if (mode.equals("Hide")) {
+            Log.d(LOG_TAG, "switchPasswordVisibility: hide");
+            show_password.setText(R.string.button_label_show);
+            password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        }
+
+        else {
+            Toast.makeText(this, "something wrong", Toast.LENGTH_SHORT).show();
+        }
     }
 }

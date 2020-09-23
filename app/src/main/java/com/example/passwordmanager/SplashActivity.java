@@ -2,6 +2,7 @@ package com.example.passwordmanager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,7 +16,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        SharedPreferences settings = getSharedPreferences("PREFS", 0);
+        SharedPreferences settings = getSharedPreferences("PREFS", Context.MODE_PRIVATE);
         password = settings.getString("password", "");
 
         Handler handler = new Handler();

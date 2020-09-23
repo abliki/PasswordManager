@@ -71,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textPassword" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -91,7 +91,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Show" />
+                android:text="@string/button_label_show"
+                android:onClick="switchPasswordVisibility"/>
 
         </LinearLayout>
 
