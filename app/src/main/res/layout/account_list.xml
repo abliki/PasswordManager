@@ -14,11 +14,19 @@
         android:layout_alignParentBottom="true"
         app:srcCompat="@android:drawable/ic_input_add" />
 
-    <ListView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-    </ListView>
+
+    <ExpandableListView
+        android:dividerHeight="10dp"
+        android:divider="#e5e5e5"
+        android:childDivider="#fff"
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="false"
+        android:groupIndicator="@null"
+        android:id="@+id/acclist"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+    </ExpandableListView>
 
 </RelativeLayout>

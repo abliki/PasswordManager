@@ -5,4 +5,9 @@
     <string name="password_hint">PASSWORD:</string>
     <string name="password_generate_button_label">generate</string>
     <string name="password_generate_show_button_label">show</string>
+    <string name="username">username</string>
+    <string name="Note">Note</string>
+    <string name="password">password</string>
+    <string name="Password">Password</string>
+    <string name="Username">Username</string>
 </resources>

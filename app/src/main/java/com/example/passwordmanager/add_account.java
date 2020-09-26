@@ -3,7 +3,6 @@ package com.example.passwordmanager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -41,7 +40,7 @@ public class add_account extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Back to Account list
-                Intent intent = new Intent(add_account.this, account_list.class);
+                Intent intent = new Intent(add_account.this, AccoundList.class);
                 startActivity(intent);
             }
         });
@@ -52,7 +51,7 @@ public class add_account extends AppCompatActivity {
                 //Title, password and username must be filled
                 if (title.getText().toString().length() != 0 && username.getText().toString().length() != 0 && password.getText().toString().length() != 0){
                     add_data();
-                    Intent intent = new Intent(add_account.this, account_list.class);
+                    Intent intent = new Intent(add_account.this, AccoundList.class);
                     startActivity(intent);
                 }
                 else{
