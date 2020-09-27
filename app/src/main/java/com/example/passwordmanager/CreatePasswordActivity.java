@@ -1,6 +1,8 @@
 package com.example.passwordmanager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKey;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +11,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 public class CreatePasswordActivity extends AppCompatActivity {
 
@@ -35,8 +40,32 @@ public class CreatePasswordActivity extends AppCompatActivity {
                     Toast.makeText(CreatePasswordActivity.this, "Minimum 8 characters!", Toast.LENGTH_SHORT).show();
                 } else {
                     if (text1.equals(text2)) {
-                        SharedPreferences settings = getSharedPreferences("PREFS", 0);
-                        SharedPreferences.Editor editor = settings.edit();
+                        MasterKey masterKey = null;
+                        try {
+                            masterKey = new MasterKey.Builder(getApplicationContext(), MasterKey.DEFAULT_MASTER_KEY_ALIAS)
+                                    .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                                    .build();
+                        } catch (GeneralSecurityException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        SharedPreferences sharedPreferences = null;
+                        try {
+                            sharedPreferences = EncryptedSharedPreferences.create(
+                                    getApplicationContext(),
+                                    "secret_shared_prefs",
+                                    masterKey,
+                                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM);
+                        } catch (GeneralSecurityException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+//                        SharedPreferences sharedPreferences = getSharedPreferences("secret_shared_prefs", 0);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
 
                         editor.putString("password", text1);
                         editor.apply();
