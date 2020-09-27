@@ -41,24 +41,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long id = values.getAsLong("ID");
 
         long result = db.update("Accounts", values, "ID=" + id, null);
-        //if date as inserted incorrectly it will return -1
-        if (result == -1) {
-            return false;
-        } else {
-            return true;
-        }
+        return true;
     }
 
     public boolean deleteData(long id){
         SQLiteDatabase db = this.getWritableDatabase();
 
         long result = db.delete("Accounts", "ID=" + id, null);
-        //if date as inserted incorrectly it will return -1
-        if (result == -1) {
-            return false;
-        } else {
-            return true;
-        }
+        return true;
     }
 
     public Cursor getData(){

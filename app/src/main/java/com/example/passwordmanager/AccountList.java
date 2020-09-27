@@ -86,6 +86,7 @@ public class AccountList extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     DBhelper.deleteData(id);
+                    populateList();
                 }
             };
             new AlertDialog.Builder(this).setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
@@ -104,6 +105,7 @@ public class AccountList extends AppCompatActivity {
                     data.getString(3), data.getString(4), data.getString(5)));
         }
         data.close();
+        DBhelper.closeDB();
         //create the list adapter and set the adapter
         adapter = new AccountListAdapter(this.context,listData);
         mListView.setIndicatorBounds(0, 20);

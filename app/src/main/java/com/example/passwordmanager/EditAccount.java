@@ -38,15 +38,15 @@ public class EditAccount extends AppCompatActivity {
         notes = (EditText) findViewById(R.id.note_edit);
 
         Cursor data = DBhelper.getData();
-        while (data.getLong(0)!=id){
-            data.moveToNext();
-        }
+
+        //while (data.getLong(0)!=id){
+         //   data.moveToNext();
+        //}
         title.setText(data.getString(1));
         url.setText(data.getString(2));
         username.setText(data.getString(3));
         password.setText(data.getString(4));
         notes.setText(data.getString(5));
-
 
 
 

@@ -78,20 +78,5 @@ public class AddAccount extends AppCompatActivity {
             DBhelper.closeDB();
     }
 
-    private void update_data(){
-        //Create a contentvalue to insert to database
-        long id = System.currentTimeMillis()/1000;
-        System.out.println(title.getText().toString());
-        ContentValues values = new ContentValues();
-        values.put("ID",id+"");
-        values.put("TITLE", title.getText().toString());
-        values.put("URL", url.getText().toString());
-        values.put("USERNAME", username.getText().toString());
-        values.put("PASSWORD", password.getText().toString());
-        values.put("NOTES", notes.getText().toString());
-        DBhelper.updateData(values);
-        DBhelper.closeDB();
-
-    }
 
 }
