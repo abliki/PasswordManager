@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".EditAccount"></activity>
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,8 +19,8 @@
         </activity>
         <activity android:name=".CreatePasswordActivity" />
         <activity android:name=".LoginPage" />
-        <activity android:name=".AccoundList"></activity>
-        <activity android:name=".add_account"></activity>
+        <activity android:name=".AccountList" />
+        <activity android:name=".AddAccount" />
     </application>
 
 </manifest>

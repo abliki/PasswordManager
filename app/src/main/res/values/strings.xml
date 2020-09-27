@@ -10,4 +10,12 @@
     <string name="password">password</string>
     <string name="Password">Password</string>
     <string name="Username">Username</string>
+    <string name="save">SAVE</string>
+    <string name="edit_account">Edit Account</string>
+    <string name="account_title">Account title</string>
+    <string name="url">URL</string>
+    <string name="user_name">User Name</string>
+    <string name="generate">Generate</string>
+    <string name="show">Show</string>
+    <string name="cancel">Cancel</string>
 </resources>

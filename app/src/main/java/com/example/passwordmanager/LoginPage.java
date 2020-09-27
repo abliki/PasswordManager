@@ -32,7 +32,7 @@ public class LoginPage extends AppCompatActivity {
                 String text = editText.getText().toString();
 
                 if(text.equals(password)) {
-                    Intent intent = new Intent(getApplicationContext(), AccoundList.class);
+                    Intent intent = new Intent(getApplicationContext(), AccountList.class);
                     startActivity(intent);
                     finish();
                 } else {
@@ -43,7 +43,7 @@ public class LoginPage extends AppCompatActivity {
     }
 
     public void toNext(View view) {
-        Intent intent = new Intent(this, AccoundList.class);
+        Intent intent = new Intent(this, AccountList.class);
         startActivity(intent);
     }
 }

@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-public class add_account extends AppCompatActivity {
+public class AddAccount extends AppCompatActivity {
     private EditText title,url,username,password,notes;
     private Button generate_password, show_password, cancel, add;
     DatabaseHelper DBhelper;
@@ -20,9 +20,9 @@ public class add_account extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_acount);
+        setContentView(R.layout.activity_add_account);
 
-        context = add_account.this;
+        context = AddAccount.this;
         DBhelper = new DatabaseHelper(this);
 
         title = (EditText) findViewById(R.id.title_edit);
@@ -40,7 +40,7 @@ public class add_account extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Back to Account list
-                Intent intent = new Intent(add_account.this, AccoundList.class);
+                Intent intent = new Intent(AddAccount.this, AccountList.class);
                 startActivity(intent);
             }
         });
@@ -49,9 +49,11 @@ public class add_account extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Title, password and username must be filled
-                if (title.getText().toString().length() != 0 && username.getText().toString().length() != 0 && password.getText().toString().length() != 0){
+                if (title.getText().toString().length() != 0
+                        && username.getText().toString().length() != 0
+                        && password.getText().toString().length() != 0){
                     add_data();
-                    Intent intent = new Intent(add_account.this, AccoundList.class);
+                    Intent intent = new Intent(AddAccount.this, AccountList.class);
                     startActivity(intent);
                 }
                 else{
@@ -74,6 +76,22 @@ public class add_account extends AppCompatActivity {
             values.put("NOTES", notes.getText().toString());
             DBhelper.addData(values);
             DBhelper.closeDB();
+    }
+
+    private void update_data(){
+        //Create a contentvalue to insert to database
+        long id = System.currentTimeMillis()/1000;
+        System.out.println(title.getText().toString());
+        ContentValues values = new ContentValues();
+        values.put("ID",id+"");
+        values.put("TITLE", title.getText().toString());
+        values.put("URL", url.getText().toString());
+        values.put("USERNAME", username.getText().toString());
+        values.put("PASSWORD", password.getText().toString());
+        values.put("NOTES", notes.getText().toString());
+        DBhelper.updateData(values);
+        DBhelper.closeDB();
+
     }
 
 }
