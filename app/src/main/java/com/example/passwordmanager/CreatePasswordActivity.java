@@ -29,9 +29,10 @@ public class CreatePasswordActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String text1 = editText1.getText().toString();
                 String text2 = editText2.getText().toString();
-
                 if(text1.equals("") || text2.equals("")) {
                     Toast.makeText(CreatePasswordActivity.this, "No password entered!", Toast.LENGTH_SHORT).show();
+                } else if (text1.length() < 8) {
+                    Toast.makeText(CreatePasswordActivity.this, "Minimum 8 characters!", Toast.LENGTH_SHORT).show();
                 } else {
                     if (text1.equals(text2)) {
                         SharedPreferences settings = getSharedPreferences("PREFS", 0);
