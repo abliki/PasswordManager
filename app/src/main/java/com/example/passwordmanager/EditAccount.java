@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,10 +24,11 @@ public class EditAccount extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_account);
+        setContentView(R.layout.activity_edit_account);
 
         Intent mIntent = getIntent();
-        final long id = mIntent.getIntExtra("ID", '0');
+        final long id = mIntent.getLongExtra("ID", 1);
+        Log.d("IDinEdit", Long.toString(id));
 
         context = EditAccount.this;
         DBhelper = new DatabaseHelper(this);
@@ -39,14 +41,12 @@ public class EditAccount extends AppCompatActivity {
 
         Cursor data = DBhelper.getData();
 
-        //while (data.getLong(0)!=id){
-         //   data.moveToNext();
-        //}
-        title.setText(data.getString(1));
-        url.setText(data.getString(2));
-        username.setText(data.getString(3));
-        password.setText(data.getString(4));
-        notes.setText(data.getString(5));
+
+        title.setText(mIntent.getStringExtra("Title"));
+        url.setText(mIntent.getStringExtra("URL"));
+        username.setText(mIntent.getStringExtra("Username"));
+        password.setText(mIntent.getStringExtra("Password"));
+        notes.setText(mIntent.getStringExtra("Notes"));
 
 
 
@@ -88,13 +88,12 @@ public class EditAccount extends AppCompatActivity {
 
         System.out.println(title.getText().toString());
         ContentValues values = new ContentValues();
-        values.put("ID",id+"");
         values.put("TITLE", title.getText().toString());
         values.put("URL", url.getText().toString());
         values.put("USERNAME", username.getText().toString());
         values.put("PASSWORD", password.getText().toString());
         values.put("NOTES", notes.getText().toString());
-        DBhelper.updateData(values);
+        DBhelper.updateData(values, id);
         DBhelper.closeDB();
 
     }

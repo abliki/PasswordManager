@@ -36,9 +36,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean updateData(ContentValues values){
+    public boolean updateData(ContentValues values, long id){
         SQLiteDatabase db = this.getWritableDatabase();
-        long id = values.getAsLong("ID");
 
         long result = db.update("Accounts", values, "ID=" + id, null);
         return true;

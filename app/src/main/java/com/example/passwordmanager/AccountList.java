@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -73,12 +74,19 @@ public class AccountList extends AppCompatActivity {
         int menuItemId = item.getItemId();
         String[] menuItems = getResources().getStringArray(R.array.edit_meun);
         final long id = data.getLong(0);
+        Log.d("IDinAcc", Long.toString(id));
 
         if(menuItems[menuItemId].equals("Edit")) {
 
             Intent intent = new Intent(AccountList.this, EditAccount.class);
             intent.putExtra("ID", id);
+            intent.putExtra("Title", data.getString(1));
+            intent.putExtra("URL", data.getString(2));
+            intent.putExtra("Username", data.getString(3));
+            intent.putExtra("Password", data.getString(4));
+            intent.putExtra("Notes", data.getString(5));
             startActivity(intent);
+            populateList();
             return true;
         }
         else if(menuItems[menuItemId].equals("Delete")) {
