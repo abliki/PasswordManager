@@ -16,6 +16,16 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 
 public class add_account extends AppCompatActivity {
     private static final String EXTRA_MESSAGE = "com.example.passwordmanager.extra.MESSAGE";
@@ -26,6 +36,7 @@ public class add_account extends AppCompatActivity {
     private Button mShowPassword, mCancel, mAdd;
     DatabaseHelper DBhelper;
     private Context context;
+    private Crypter crypter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,6 +45,7 @@ public class add_account extends AppCompatActivity {
 
         context = add_account.this;
         DBhelper = new DatabaseHelper(this);
+        crypter = new Crypter();
 
         mTitle = (EditText) findViewById(R.id.title_edit);
         mUrl = (EditText) findViewById(R.id.url_edit);
@@ -59,7 +71,21 @@ public class add_account extends AppCompatActivity {
             public void onClick(View view) {
                 //Title, password and username must be filled
                 if (mTitle.getText().toString().length() != 0 && mUsername.getText().toString().length() != 0 && mPassword.getText().toString().length() != 0) {
-                    add_data();
+                    try {
+                        add_data();
+                    } catch (NoSuchPaddingException e) {
+                        e.printStackTrace();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    } catch (IllegalBlockSizeException e) {
+                        e.printStackTrace();
+                    } catch (BadPaddingException e) {
+                        e.printStackTrace();
+                    } catch (InvalidKeyException e) {
+                        e.printStackTrace();
+                    }
                     Intent intent = new Intent(add_account.this, account_list.class);
                     startActivity(intent);
                 } else {
@@ -70,19 +96,22 @@ public class add_account extends AppCompatActivity {
 
     }
 
-    private void add_data() {
+    private void add_data() throws NoSuchPaddingException, UnsupportedEncodingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         //Create a contentvalue to insert to database
-        long id = System.currentTimeMillis() / 1000;
         System.out.println(mTitle.getText().toString());
         ContentValues values = new ContentValues();
-        values.put("ID", id + "");
-        values.put("TITLE", mTitle.getText().toString());
-        values.put("URL", mUrl.getText().toString());
-        values.put("USERNAME", mUsername.getText().toString());
-        values.put("PASSWORD", mPassword.getText().toString());
-        values.put("NOTES", mNotes.getText().toString());
+        long id = System.currentTimeMillis()/1000;
+
+        values.put("ID", id+"");
+        values.put("TITLE", crypter.encrypt(context, mTitle.getText().toString(), id+""));
+        values.put("URL", crypter.encrypt(context, mUrl.getText().toString(), id+""));
+        values.put("USERNAME", crypter.encrypt(context, mUsername.getText().toString(), id+""));
+        values.put("PASSWORD", crypter.encrypt(context, mPassword.getText().toString(), id+""));
+        values.put("NOTES", crypter.encrypt(context, mNotes.getText().toString(), id+""));
+
         DBhelper.addData(values);
         DBhelper.closeDB();
+
     }
 
     /**
