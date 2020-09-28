@@ -24,7 +24,9 @@ public class account_list extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.account_list);
+
         DBhelper = new DatabaseHelper(this);
+
         mListView = (ListView) findViewById(R.id.password_list);
         add_button = (FloatingActionButton) findViewById(R.id.float_button_toadd);
         add_button.setOnClickListener(new View.OnClickListener() {

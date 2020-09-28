@@ -1,18 +1,16 @@
 package com.example.passwordmanager;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.security.crypto.EncryptedSharedPreferences;
-import androidx.security.crypto.MasterKey;
-
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKey;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -53,8 +51,6 @@ public class LoginPage extends AppCompatActivity {
         }
 
 
-
-
 //        SharedPreferences sharedPreferences = getSharedPreferences("secret_shared_prefs", Context.MODE_PRIVATE);
         password = sharedPreferences.getString("password", "");
 
@@ -66,7 +62,7 @@ public class LoginPage extends AppCompatActivity {
             public void onClick(View view) {
                 String text = editText.getText().toString();
 
-                if(text.equals(password)) {
+                if (text.equals(password)) {
                     Intent intent = new Intent(getApplicationContext(), account_list.class);
                     startActivity(intent);
                     finish();
@@ -77,8 +73,4 @@ public class LoginPage extends AppCompatActivity {
         });
     }
 
-    public void toNext(View view) {
-        Intent intent = new Intent(this, account_list.class);
-        startActivity(intent);
-    }
 }

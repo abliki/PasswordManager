@@ -124,12 +124,12 @@ public class add_account extends AppCompatActivity {
     public void switchPasswordVisibility(View view) {
         String mode = mShowPassword.getText().toString();
 
-        if (mode.equals("Show")) {
+        if (mode.equals(getString(R.string.button_label_show))) {
             Log.d(LOG_TAG, "switchPasswordVisibility: show");
             mShowPassword.setText(R.string.button_label_hide);
 //            mPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
             mPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-        } else if (mode.equals("Hide")) {
+        } else if (mode.equals(getString(R.string.button_label_hide))) {
             Log.d(LOG_TAG, "switchPasswordVisibility: hide");
             mShowPassword.setText(R.string.button_label_show);
 //            mPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
