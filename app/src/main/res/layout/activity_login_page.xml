@@ -9,35 +9,37 @@
     tools:context=".LoginPage">
 
     <TextView
+        android:id="@+id/textView3"
+        android:layout_width="297dp"
+        android:layout_height="143dp"
+        android:layout_marginStart="174dp"
+        android:layout_marginTop="-180dp"
+        android:layout_marginEnd="174dp"
+        android:drawableTop="@drawable/ic_baseline_lock_24"
+        android:text="Password Manager"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/textView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter Password" />
+        android:text="Enter Password"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <EditText
         android:id="@+id/editTextTextPassword"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPassword" />
 
     <Button
         android:id="@+id/buttonLoginPassword"
-        android:layout_width="match_parent"
+        android:layout_width="136dp"
         android:layout_height="wrap_content"
         android:text="ENTER" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:onClick="toNext"
-        android:text="Button" />
 
 </LinearLayout>

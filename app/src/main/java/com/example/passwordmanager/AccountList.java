@@ -20,15 +20,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 public class AccountList extends AppCompatActivity {
 
     private ExpandableListView mListView;
     private FloatingActionButton add_button;
     DatabaseHelper DBhelper;
+    private Crypter crypter;
 
     private AccountListAdapter adapter;
     private Context context;
@@ -39,8 +47,10 @@ public class AccountList extends AppCompatActivity {
         setContentView(R.layout.account_list);
         context = AccountList.this;
         DBhelper = new DatabaseHelper(this);
-        mListView = (ExpandableListView) findViewById(R.id.acclist);
-        add_button = (FloatingActionButton) findViewById(R.id.toadd);
+        crypter = new Crypter();
+
+        mListView = (ExpandableListView) findViewById(R.id.password_list);
+        add_button = (FloatingActionButton) findViewById(R.id.float_button_toadd);
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,7 +59,22 @@ public class AccountList extends AppCompatActivity {
             }
         });
 
-        populateList();
+        try {
+            populateList();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
 
 
 
@@ -57,7 +82,7 @@ public class AccountList extends AppCompatActivity {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        if(v.getId()==R.id.acclist){
+        if(v.getId()==R.id.password_list){
             String[] menuItems = getResources().getStringArray(R.array.edit_meun);
             for (int i = 0; i<menuItems.length; i++) {
                 menu.add(Menu.NONE, i, i, menuItems[i]);
@@ -78,15 +103,29 @@ public class AccountList extends AppCompatActivity {
 
         if(menuItems[menuItemId].equals("Edit")) {
 
-            Intent intent = new Intent(AccountList.this, EditAccount.class);
+            Intent intent = new Intent(AccountList.this, AddAccount.class);
             intent.putExtra("ID", id);
             intent.putExtra("Title", data.getString(1));
-            intent.putExtra("URL", data.getString(2));
-            intent.putExtra("Username", data.getString(3));
-            intent.putExtra("Password", data.getString(4));
-            intent.putExtra("Notes", data.getString(5));
+            intent.putExtra("URL", data.getString(1));
+            intent.putExtra("Username", data.getString(1));
+            intent.putExtra("Password", data.getString(1));
+            intent.putExtra("Notes", data.getString(1));
             startActivity(intent);
-            populateList();
+            try {
+                populateList();
+            } catch (NoSuchPaddingException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (IllegalBlockSizeException e) {
+                e.printStackTrace();
+            } catch (BadPaddingException e) {
+                e.printStackTrace();
+            } catch (InvalidKeyException e) {
+                e.printStackTrace();
+            }
             return true;
         }
         else if(menuItems[menuItemId].equals("Delete")) {
@@ -94,7 +133,21 @@ public class AccountList extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     DBhelper.deleteData(id);
-                    populateList();
+                    try {
+                        populateList();
+                    } catch (NoSuchPaddingException e) {
+                        e.printStackTrace();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    } catch (IllegalBlockSizeException e) {
+                        e.printStackTrace();
+                    } catch (BadPaddingException e) {
+                        e.printStackTrace();
+                    } catch (InvalidKeyException e) {
+                        e.printStackTrace();
+                    }
                 }
             };
             new AlertDialog.Builder(this).setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
@@ -102,15 +155,21 @@ public class AccountList extends AppCompatActivity {
         return true;
     }
 
-    private void populateList() {
+    private void populateList() throws NoSuchPaddingException, UnsupportedEncodingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         //get the data and append to a list
         Cursor data = DBhelper.getData();
         ArrayList<List<String>> listData = new ArrayList<>();
         while (data.moveToNext()) {
             //get the value from the database in column TITLE
             //then add it to the ArrayList
-            listData.add(Arrays.asList(data.getString(0), data.getString(1), data.getString(2),
-                    data.getString(3), data.getString(4), data.getString(5)));
+            listData.add(Arrays.asList(
+                    data.getString(0),
+                    crypter.decrypt(data.getString(1), data.getString(0)),
+                    crypter.decrypt(data.getString(2), data.getString(0)),
+                    crypter.decrypt(data.getString(3), data.getString(0)),
+                    crypter.decrypt(data.getString(4), data.getString(0)),
+                    crypter.decrypt(data.getString(5), data.getString(0))
+                    ));
         }
         data.close();
         DBhelper.closeDB();

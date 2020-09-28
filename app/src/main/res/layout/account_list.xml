@@ -6,12 +6,14 @@
     android:orientation="vertical">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/toadd"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end" android:layout_margin="16dp"
-        android:layout_alignParentRight="true"
+        android:id="@+id/float_button_toadd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
         app:srcCompat="@android:drawable/ic_input_add" />
 
 
@@ -23,9 +25,9 @@
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="false"
         android:groupIndicator="@null"
-        android:id="@+id/acclist"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/password_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:padding="10dp">
     </ExpandableListView>
 
