@@ -50,7 +50,7 @@ public class LoginPage extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
+        
 //        SharedPreferences sharedPreferences = getSharedPreferences("secret_shared_prefs", Context.MODE_PRIVATE);
         password = sharedPreferences.getString("password", "");
 
