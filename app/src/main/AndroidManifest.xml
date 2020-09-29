@@ -19,8 +19,8 @@
         </activity>
         <activity android:name=".CreatePasswordActivity" />
         <activity android:name=".LoginPage" />
-        <activity android:name=".account_list" />
-        <activity android:name=".add_account" />
+        <activity android:name=".AccountList" />
+        <activity android:name=".AddAccount" />
     </application>
 
 </manifest>

@@ -63,7 +63,7 @@ public class LoginPage extends AppCompatActivity {
                 String text = editText.getText().toString();
 
                 if (text.equals(password)) {
-                    Intent intent = new Intent(getApplicationContext(), account_list.class);
+                    Intent intent = new Intent(getApplicationContext(), AccountList.class);
                     startActivity(intent);
                     finish();
                 } else {

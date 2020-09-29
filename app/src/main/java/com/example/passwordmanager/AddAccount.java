@@ -27,10 +27,11 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 
-public class add_account extends AppCompatActivity {
+public class AddAccount extends AppCompatActivity {
     private static final String EXTRA_MESSAGE = "com.example.passwordmanager.extra.MESSAGE";
     private static final int TEXT_REQUEST = 1;
-    public static final String LOG_TAG = add_account.class.getSimpleName();
+    public static final String LOG_TAG = AddAccount.class.getSimpleName();
+
 
     private EditText mTitle, mUrl, mUsername, mPassword, mNotes;
     private Button mShowPassword, mCancel, mAdd;
@@ -41,9 +42,12 @@ public class add_account extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_acount);
+        setContentView(R.layout.activity_add_account);
 
-        context = add_account.this;
+        Intent mIntent = this.getIntent();
+        final long id = mIntent.getLongExtra("ID", 0);
+
+        context = AddAccount.this;
         DBhelper = new DatabaseHelper(this);
         crypter = new Crypter();
 
@@ -57,11 +61,29 @@ public class add_account extends AppCompatActivity {
         mCancel = (Button) findViewById(R.id.cancel);
         mAdd = (Button) findViewById(R.id.add);
 
+        if (id != 0){
+            try {
+                setOriginalText(mIntent, id);
+            } catch (NoSuchPaddingException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (IllegalBlockSizeException e) {
+                e.printStackTrace();
+            } catch (BadPaddingException e) {
+                e.printStackTrace();
+            } catch (InvalidKeyException e) {
+                e.printStackTrace();
+            }
+        }
+
         mCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Back to Account list
-                Intent intent = new Intent(add_account.this, account_list.class);
+                Intent intent = new Intent(AddAccount.this, AccountList.class);
                 startActivity(intent);
             }
         });
@@ -70,9 +92,17 @@ public class add_account extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Title, password and username must be filled
-                if (mTitle.getText().toString().length() != 0 && mUsername.getText().toString().length() != 0 && mPassword.getText().toString().length() != 0) {
+                if (mTitle.getText().toString().length() != 0
+                        && mUsername.getText().toString().length() != 0
+                        && mPassword.getText().toString().length() != 0) {
+
                     try {
-                        add_data();
+                        if (id == 0){
+                            add_data();
+                        }
+                        else {
+                            update_data(id);
+                        }
                     } catch (NoSuchPaddingException e) {
                         e.printStackTrace();
                     } catch (UnsupportedEncodingException e) {
@@ -86,13 +116,18 @@ public class add_account extends AppCompatActivity {
                     } catch (InvalidKeyException e) {
                         e.printStackTrace();
                     }
-                    Intent intent = new Intent(add_account.this, account_list.class);
+                    Intent intent = new Intent(AddAccount.this, AccountList.class);
                     startActivity(intent);
+
+
                 } else {
                     Toast.makeText(context, "Title, Username and Password must be filled", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+
+
 
     }
 
@@ -110,6 +145,21 @@ public class add_account extends AppCompatActivity {
         values.put("NOTES", crypter.encrypt(context, mNotes.getText().toString(), id+""));
 
         DBhelper.addData(values);
+        DBhelper.closeDB();
+
+    }
+
+    private void update_data(long id) throws NoSuchPaddingException, UnsupportedEncodingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+        //Create a contentvalue to insert to database
+        System.out.println(mTitle.getText().toString());
+        ContentValues values = new ContentValues();
+        values.put("TITLE", crypter.encrypt(context, mTitle.getText().toString(), id+""));
+        values.put("URL", crypter.encrypt(context, mUrl.getText().toString(), id+""));
+        values.put("USERNAME", crypter.encrypt(context, mUsername.getText().toString(), id+""));
+        values.put("PASSWORD", crypter.encrypt(context, mPassword.getText().toString(), id+""));
+        values.put("NOTES", crypter.encrypt(context, mNotes.getText().toString(), id+""));
+
+        DBhelper.updateData(values, id);
         DBhelper.closeDB();
 
     }
@@ -167,4 +217,13 @@ public class add_account extends AppCompatActivity {
             Log.d(LOG_TAG, "the show/hide button is neither hide nor show, something wrong");
         }
     }
+
+    private void setOriginalText(Intent mIntent, long id) throws NoSuchPaddingException, UnsupportedEncodingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+        mTitle.setText(crypter.decrypt(mIntent.getStringExtra("Title"), Long.toString(id)));
+        mUrl.setText(crypter.decrypt(mIntent.getStringExtra("URL"), Long.toString(id)));
+        mUsername.setText(crypter.decrypt(mIntent.getStringExtra("Username"), Long.toString(id)));
+        mPassword.setText(crypter.decrypt(mIntent.getStringExtra("Password"), Long.toString(id)));
+        mNotes.setText(crypter.decrypt(mIntent.getStringExtra("Notes"), Long.toString(id)));
+    }
+
 }
