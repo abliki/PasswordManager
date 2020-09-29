@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +19,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import net.sqlcipher.database.SQLiteDatabase;
+
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -41,21 +43,32 @@ public class AccountList extends AppCompatActivity {
 
     private AccountListAdapter adapter;
     private Context context;
+    private String masterKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.account_list);
+
         context = AccountList.this;
         DBhelper = new DatabaseHelper(this);
         crypter = new Crypter();
 
+        Intent intent = getIntent();
+        masterKey = intent.getStringExtra(LoginPage.PASSWORD_KEY);
+
+        DBhelper.setMasterKey(masterKey);
+
+        net.sqlcipher.database.SQLiteDatabase.loadLibs(this);
+
+        // init views
         mListView = (ExpandableListView) findViewById(R.id.password_list);
         add_button = (FloatingActionButton) findViewById(R.id.float_button_toadd);
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(AccountList.this, AddAccount.class);
+                intent.putExtra(LoginPage.PASSWORD_KEY, masterKey);
                 startActivity(intent);
             }
         });
@@ -100,7 +113,6 @@ public class AccountList extends AppCompatActivity {
         int menuItemId = item.getItemId();
         String[] menuItems = getResources().getStringArray(R.array.edit_meun);
         final long id = data.getLong(0);
-        Log.d("IDinAcc", Long.toString(id));
 
         if(menuItems[menuItemId].equals("Edit")) {
 
@@ -111,6 +123,7 @@ public class AccountList extends AppCompatActivity {
             intent.putExtra("Username", data.getString(1));
             intent.putExtra("Password", data.getString(1));
             intent.putExtra("Notes", data.getString(1));
+            intent.putExtra(LoginPage.PASSWORD_KEY, masterKey);
             startActivity(intent);
 
 //            try {
@@ -135,6 +148,8 @@ public class AccountList extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     DBhelper.deleteData(id);
+                    DBhelper.closeDB();
+
                     try {
                         populateList();
                     } catch (NoSuchPaddingException e) {
@@ -158,7 +173,7 @@ public class AccountList extends AppCompatActivity {
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            // cancel the dialog
+                            // cancel the dialog by do nothing
                         }
                     })
                     .show();
@@ -166,6 +181,15 @@ public class AccountList extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Get data from sqlite database and reflect the information on a list to show
+     * @throws NoSuchPaddingException
+     * @throws UnsupportedEncodingException
+     * @throws NoSuchAlgorithmException
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     * @throws InvalidKeyException
+     */
     private void populateList() throws NoSuchPaddingException, UnsupportedEncodingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         //get the data and append to a list
         Cursor data = DBhelper.getData();
@@ -190,4 +214,5 @@ public class AccountList extends AppCompatActivity {
         mListView.setAdapter(adapter);
         registerForContextMenu(mListView);
     }
+
 }

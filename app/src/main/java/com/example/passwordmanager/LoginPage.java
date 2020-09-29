@@ -20,6 +20,7 @@ public class LoginPage extends AppCompatActivity {
     EditText editText;
     Button button;
     String password;
+    public static final String PASSWORD_KEY = "password";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,7 @@ public class LoginPage extends AppCompatActivity {
 
         
 //        SharedPreferences sharedPreferences = getSharedPreferences("secret_shared_prefs", Context.MODE_PRIVATE);
-        password = sharedPreferences.getString("password", "");
+        password = sharedPreferences.getString(PASSWORD_KEY, "");
 
         editText = (EditText) findViewById(R.id.editTextTextPassword);
         button = (Button) findViewById(R.id.buttonLoginPassword);
@@ -64,6 +65,7 @@ public class LoginPage extends AppCompatActivity {
 
                 if (text.equals(password)) {
                     Intent intent = new Intent(getApplicationContext(), AccountList.class);
+                    intent.putExtra(PASSWORD_KEY, text);
                     startActivity(intent);
                     finish();
                 } else {

@@ -25,7 +25,7 @@ public class Crypter {
         c.init(Cipher.ENCRYPT_MODE, key);
         byte[] textBytes = c.doFinal(text.getBytes());
         String cipherText = Base64.encodeToString(textBytes,Base64.DEFAULT);
-        Toast.makeText(context, cipherText,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context, cipherText,Toast.LENGTH_SHORT).show(); // for demonstration
         return cipherText;
     }
 

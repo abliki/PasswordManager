@@ -38,6 +38,7 @@ public class AddAccount extends AppCompatActivity {
     DatabaseHelper DBhelper;
     private Context context;
     private Crypter crypter;
+    private String masterKey;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,10 +47,13 @@ public class AddAccount extends AppCompatActivity {
 
         Intent mIntent = this.getIntent();
         final long id = mIntent.getLongExtra("ID", 0);
+        masterKey = mIntent.getStringExtra(LoginPage.PASSWORD_KEY);
 
         context = AddAccount.this;
         DBhelper = new DatabaseHelper(this);
         crypter = new Crypter();
+
+        DBhelper.setMasterKey(masterKey);
 
         mTitle = (EditText) findViewById(R.id.title_edit);
         mUrl = (EditText) findViewById(R.id.url_edit);
@@ -84,6 +88,7 @@ public class AddAccount extends AppCompatActivity {
             public void onClick(View view) {
                 //Back to Account list
                 Intent intent = new Intent(AddAccount.this, AccountList.class);
+                intent.putExtra(LoginPage.PASSWORD_KEY, masterKey);
                 startActivity(intent);
             }
         });
@@ -117,6 +122,7 @@ public class AddAccount extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     Intent intent = new Intent(AddAccount.this, AccountList.class);
+                    intent.putExtra(LoginPage.PASSWORD_KEY, masterKey);
                     startActivity(intent);
 
 
@@ -132,8 +138,7 @@ public class AddAccount extends AppCompatActivity {
     }
 
     private void add_data() throws NoSuchPaddingException, UnsupportedEncodingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
-        //Create a contentvalue to insert to database
-        System.out.println(mTitle.getText().toString());
+        //Create a ContentValue to insert to database
         ContentValues values = new ContentValues();
         long id = System.currentTimeMillis()/1000;
 
@@ -150,8 +155,7 @@ public class AddAccount extends AppCompatActivity {
     }
 
     private void update_data(long id) throws NoSuchPaddingException, UnsupportedEncodingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
-        //Create a contentvalue to insert to database
-        System.out.println(mTitle.getText().toString());
+        // given id, update a ContentValue to database
         ContentValues values = new ContentValues();
         values.put("TITLE", crypter.encrypt(context, mTitle.getText().toString(), id+""));
         values.put("URL", crypter.encrypt(context, mUrl.getText().toString(), id+""));
@@ -204,14 +208,10 @@ public class AddAccount extends AppCompatActivity {
         String mode = mShowPassword.getText().toString();
 
         if (mode.equals(getString(R.string.button_label_show))) {
-            Log.d(LOG_TAG, "switchPasswordVisibility: show");
             mShowPassword.setText(R.string.button_label_hide);
-//            mPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
             mPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
         } else if (mode.equals(getString(R.string.button_label_hide))) {
-            Log.d(LOG_TAG, "switchPasswordVisibility: hide");
             mShowPassword.setText(R.string.button_label_show);
-//            mPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             mPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
         } else {
             Log.d(LOG_TAG, "the show/hide button is neither hide nor show, something wrong");
