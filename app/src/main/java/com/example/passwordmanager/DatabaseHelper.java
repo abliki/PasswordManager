@@ -4,8 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-//import net.sqlcipher.database.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+//import net.sqlcipher.database.SQLiteDatabase;
+//import net.sqlcipher.database.SQLiteDatabase;
 import android.provider.ContactsContract;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
