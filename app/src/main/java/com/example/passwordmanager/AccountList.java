@@ -32,6 +32,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 public class AccountList extends AppCompatActivity {
+    public static final String LOG_TAG = AccountList.class.getSimpleName();
 
     private ExpandableListView mListView;
     private FloatingActionButton add_button;
@@ -111,21 +112,22 @@ public class AccountList extends AppCompatActivity {
             intent.putExtra("Password", data.getString(1));
             intent.putExtra("Notes", data.getString(1));
             startActivity(intent);
-            try {
-                populateList();
-            } catch (NoSuchPaddingException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (IllegalBlockSizeException e) {
-                e.printStackTrace();
-            } catch (BadPaddingException e) {
-                e.printStackTrace();
-            } catch (InvalidKeyException e) {
-                e.printStackTrace();
-            }
+
+//            try {
+//                populateList();
+//            } catch (NoSuchPaddingException e) {
+//                e.printStackTrace();
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            } catch (NoSuchAlgorithmException e) {
+//                e.printStackTrace();
+//            } catch (IllegalBlockSizeException e) {
+//                e.printStackTrace();
+//            } catch (BadPaddingException e) {
+//                e.printStackTrace();
+//            } catch (InvalidKeyException e) {
+//                e.printStackTrace();
+//            }
             return true;
         }
         else if(menuItems[menuItemId].equals("Delete")) {
@@ -150,7 +152,16 @@ public class AccountList extends AppCompatActivity {
                     }
                 }
             };
-            new AlertDialog.Builder(this).setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
+            new AlertDialog.Builder(this)
+                    .setMessage("Are you sure?")
+                    .setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // cancel the dialog
+                        }
+                    })
+                    .show();
         }
         return true;
     }

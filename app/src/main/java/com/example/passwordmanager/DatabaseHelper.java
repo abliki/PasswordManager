@@ -6,14 +6,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 //import net.sqlcipher.database.SQLiteDatabase;
-//import net.sqlcipher.database.SQLiteDatabase;
+//import net.sqlcipher.database.SQLiteOpenHelper;
 import android.provider.ContactsContract;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     // sql variables
     private static final int DATABASE_VER = 1;
-    private static DatabaseHelper dbhelper;
+//    private static DatabaseHelper dbhelper;
     public static final String DATABASE_NAME = "ACCOUNTS.db";
     public static final String TABLE_NAME = "Accounts";
 
@@ -24,7 +24,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private Context context;
 
     public DatabaseHelper(Context context){
-//        super(context,"Accounts",null, DATABASE_VER);  // original
         super(context, DATABASE_NAME,null, DATABASE_VER);
         this.context = context;
     }
@@ -33,7 +32,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase database) {
         //Create tables with column: ID, TITLE, URL, USERNAME, PASSWORD, NOTES
         database.execSQL(SQL_CREATE_TABLE_QUERY);
-//        database.execSQL("CREATE TABLE Accounts (ID INTEGER PRIMARY KEY, TITLE VARCHAR(60) NOT NULL, URL VARCHAR(255) NOT NULL, USERNAME VARCHAR(60) NOT NULL, PASSWORD VARCHAR(60) NOT NULL, NOTES TEXT NOT NULL);");
     }
 
     @Override
@@ -45,7 +43,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         long result = db.insert(TABLE_NAME, null, values);
-//        long result = db.insert("Accounts", null, values);
 
         //if date as inserted incorrectly it will return -1
         if (result == -1) {
@@ -58,14 +55,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean updateData(ContentValues values, long id){
         SQLiteDatabase db = this.getWritableDatabase();
 
-        long result = db.update("Accounts", values, "ID=" + id, null);
+        long result = db.update(TABLE_NAME, values, "ID=" + id, null);
         return true;
     }
 
     public boolean deleteData(long id){
         SQLiteDatabase db = this.getWritableDatabase();
 
-        long result = db.delete("Accounts", "ID=" + id, null);
+        long result = db.delete(TABLE_NAME, "ID=" + id, null);
         return true;
     }
 
