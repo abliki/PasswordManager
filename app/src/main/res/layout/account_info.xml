@@ -32,7 +32,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
-        android:textStyle="bold"
         android:paddingLeft="20dp"
         android:layout_below="@id/username_label"
         android:textSize="12sp" />
@@ -52,10 +51,9 @@
         android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:textStyle="bold"
-        android:paddingLeft="20dp"
         android:layout_below="@id/password_label"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="20dp"
         android:textSize="12sp" />
 
     <TextView
@@ -73,10 +71,9 @@
         android:id="@+id/note"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:textStyle="bold"
-        android:paddingLeft="20dp"
         android:layout_below="@id/note_label"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="20dp"
         android:textSize="12sp" />
 
 </RelativeLayout>

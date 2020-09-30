@@ -8,6 +8,7 @@ import android.text.InputType;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,11 +56,18 @@ public class AddAccount extends AppCompatActivity {
 
         DBhelper.setMasterKey(masterKey);
 
-        mTitle = (EditText) findViewById(R.id.title_edit);
-        mUrl = (EditText) findViewById(R.id.url_edit);
-        mUsername = (EditText) findViewById(R.id.user_edit);
-        mPassword = (EditText) findViewById(R.id.password_edit);
-        mNotes = (EditText) findViewById(R.id.note_edit);
+        // init views
+        mTitle = (EditText) findViewById(R.id.title_input_editext);
+        mUrl = (EditText) findViewById(R.id.url_input_edittext);
+        mUsername = (EditText) findViewById(R.id.username_input_edittext);
+        mPassword = (EditText) findViewById(R.id.password_input_edittext);
+        mNotes = (EditText) findViewById(R.id.note_input_edittext);
+
+//        mTitle = (EditText) findViewById(R.id.title_edit);
+//        mUrl = (EditText) findViewById(R.id.url_edit);
+//        mUsername = (EditText) findViewById(R.id.user_edit);
+//        mPassword = (EditText) findViewById(R.id.password_edit);
+//        mNotes = (EditText) findViewById(R.id.note_edit);
 
         mShowPassword = (Button) findViewById(R.id.show);
         mCancel = (Button) findViewById(R.id.cancel);
@@ -82,6 +90,42 @@ public class AddAccount extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+        // set up the cancel icon for each edittext view
+        mTitle.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return setRightDrawableWithEditText(v, event, mTitle);
+            }
+        });
+
+        mUrl.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return setRightDrawableWithEditText(v, event, mUrl);
+            }
+        });
+
+        mUsername.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return setRightDrawableWithEditText(v, event, mUsername);
+            }
+        });
+
+        mPassword.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return setRightDrawableWithEditText(v, event, mPassword);
+            }
+        });
+
+        mNotes.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return setRightDrawableWithEditText(v, event, mNotes);
+            }
+        });
 
         mCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,7 +213,7 @@ public class AddAccount extends AppCompatActivity {
     }
 
     /**
-     * onClick listener to the PasswordRandomGeneration activity
+     * onClick listener of button 'GENERATE' to the PasswordRandomGeneration activity
      *
      * @param view
      */
@@ -224,6 +268,18 @@ public class AddAccount extends AppCompatActivity {
         mUsername.setText(crypter.decrypt(mIntent.getStringExtra("Username"), Long.toString(id)));
         mPassword.setText(crypter.decrypt(mIntent.getStringExtra("Password"), Long.toString(id)));
         mNotes.setText(crypter.decrypt(mIntent.getStringExtra("Notes"), Long.toString(id)));
+    }
+
+    // helper function to set the RightDrawables of each edittext
+    private boolean setRightDrawableWithEditText(View v, MotionEvent event, EditText editText) {
+        final int DRAWABLE_RIGHT = 2;
+        if(event.getAction() == MotionEvent.ACTION_UP) {
+            if(event.getRawX() >= (editText.getRight() - editText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                editText.setText("");
+                return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -26,4 +26,14 @@
     <string name="button_label_confirm">confirm</string>
     <string name="button_label_show">Show</string>
     <string name="button_label_hide">Hide</string>
+    <string name="button_label_confirm_account">Confirm</string>
+    <string name="title_label_add_account">Add Account</string>
+    <string name="title_edittext_hint">Title</string>
+    <string name="title_edittext_url_optional">URL (optional)</string>
+    <string name="title_edittext_username">Username</string>
+    <string name="button_label_cancel">Cancel</string>
+    <string name="title_edittext_notes_optional">Notes (optional)</string>
+    <string name="title_text_generated_password">Generated password:</string>
+    <string name="gen_password_filler">123456789</string>
+    <string name="text_password_length">Password Length: 8</string>
 </resources>
