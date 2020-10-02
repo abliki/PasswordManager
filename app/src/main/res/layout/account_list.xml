@@ -25,6 +25,8 @@
         android:footerDividersEnabled="true"
         android:groupIndicator="@null"
         android:headerDividersEnabled="false"
-        android:padding="10dp"></ExpandableListView>
+        android:padding="10dp">
+
+    </ExpandableListView>
 
 </RelativeLayout>

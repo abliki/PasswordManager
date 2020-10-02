@@ -208,6 +208,7 @@ public class AccountList extends AppCompatActivity {
         }
         data.close();
         DBhelper.closeDB();
+
         //create the list adapter and set the adapter
         adapter = new AccountListAdapter(this.context,listData);
         mListView.setIndicatorBounds(0, 20);

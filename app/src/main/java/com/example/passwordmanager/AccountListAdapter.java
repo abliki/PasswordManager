@@ -1,10 +1,13 @@
 package com.example.passwordmanager;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +18,7 @@ public class AccountListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private ArrayList<List<String>> data;
+    private static TextView password;
 
     public AccountListAdapter(Context context,
                               ArrayList<List<String>> listData){
@@ -86,11 +90,22 @@ public class AccountListAdapter extends BaseExpandableListAdapter {
         }
 
         TextView username = (TextView) v.findViewById(R.id.username);
-        TextView password = (TextView) v.findViewById(R.id.password);
+        password = (TextView) v.findViewById(R.id.password);
         TextView note = (TextView) v.findViewById(R.id.note);
         username.setText(data.get(groupPosition).get(3));
         password.setText(data.get(groupPosition).get(4));
         note.setText(data.get(groupPosition).get(5));
+
+        ImageButton copyButton = (ImageButton) v.findViewById(R.id.clip_copy);
+        copyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("password", password.getText().toString());
+                clipboardManager.setPrimaryClip(clipData);
+                Toast.makeText(context, "Password copied to clipboard", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         String a = data.get(groupPosition).get(3) + data.get(groupPosition).get(4);
 
