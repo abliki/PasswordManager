@@ -1,9 +1,11 @@
 package com.example.passwordmanager;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKey;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -40,39 +42,49 @@ public class CreatePasswordActivity extends AppCompatActivity {
                     Toast.makeText(CreatePasswordActivity.this, "Minimum 8 characters!", Toast.LENGTH_SHORT).show();
                 } else {
                     if (text1.equals(text2)) {
-                        MasterKey masterKey = null;
-                        try {
-                            masterKey = new MasterKey.Builder(getApplicationContext(), MasterKey.DEFAULT_MASTER_KEY_ALIAS)
-                                    .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-                                    .build();
-                        } catch (GeneralSecurityException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        new AlertDialog.Builder(CreatePasswordActivity.this)
+                                .setTitle("Confirm Password")
+                                .setMessage("This password cannot be changed later. Do you want to continue?")
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-                        SharedPreferences sharedPreferences = null;
-                        try {
-                            sharedPreferences = EncryptedSharedPreferences.create(
-                                    getApplicationContext(),
-                                    "secret_shared_prefs",
-                                    masterKey,
-                                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM);
-                        } catch (GeneralSecurityException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        MasterKey masterKey = null;
+                                        try {
+                                            masterKey = new MasterKey.Builder(getApplicationContext(), MasterKey.DEFAULT_MASTER_KEY_ALIAS)
+                                                    .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                                                    .build();
+                                        } catch (GeneralSecurityException e) {
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        SharedPreferences sharedPreferences = null;
+                                        try {
+                                            sharedPreferences = EncryptedSharedPreferences.create(
+                                                    getApplicationContext(),
+                                                    "secret_shared_prefs",
+                                                    masterKey,
+                                                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                                                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM);
+                                        } catch (GeneralSecurityException e) {
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
 //                        SharedPreferences sharedPreferences = getSharedPreferences("secret_shared_prefs", 0);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        String text1 = editText1.getText().toString();
+                                        editor.putString("password", text1);
+                                        editor.apply();
 
-                        editor.putString("password", text1);
-                        editor.apply();
+                                        Intent intent = new Intent(getApplicationContext(), AccountList.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }})
+                                .setNegativeButton(android.R.string.no, null).show();
 
-                        Intent intent = new Intent(getApplicationContext(), AccountList.class);
-                        startActivity(intent);
-                        finish();
                     } else {
                         Toast.makeText(CreatePasswordActivity.this, "Passwords do not match.", Toast.LENGTH_SHORT).show();
                     }
