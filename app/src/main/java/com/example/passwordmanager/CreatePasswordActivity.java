@@ -80,6 +80,7 @@ public class CreatePasswordActivity extends AppCompatActivity {
                                         editor.apply();
 
                                         Intent intent = new Intent(getApplicationContext(), AccountList.class);
+                                        intent.putExtra(LoginPage.PASSWORD_KEY, text1);
                                         startActivity(intent);
                                         finish();
                                     }})
