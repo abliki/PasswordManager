@@ -7,6 +7,7 @@ import androidx.security.crypto.MasterKey;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 
 public class CreatePasswordActivity extends AppCompatActivity {
+    public static final String LOG_TAG = CreatePasswordActivity.class.getSimpleName();
 
     EditText editText1, editText2;
     Button button;
@@ -71,6 +73,7 @@ public class CreatePasswordActivity extends AppCompatActivity {
                         editor.apply();
 
                         Intent intent = new Intent(getApplicationContext(), AccountList.class);
+                        intent.putExtra(LoginPage.PASSWORD_KEY, text1);
                         startActivity(intent);
                         finish();
                     } else {

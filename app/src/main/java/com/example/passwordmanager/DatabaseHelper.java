@@ -15,6 +15,7 @@ import android.util.Log;
 
 import androidx.security.crypto.EncryptedSharedPreferences;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
